@@ -1,0 +1,20 @@
+{
+  "author": "noodle",
+  "name": "Moderation",
+  "version": "1.0.0",
+  "description": "Discord Moderation",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "engines": {
+    "node": "13.x"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cat-loggr": "^1.2.2",
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.20"
+  }
+}
