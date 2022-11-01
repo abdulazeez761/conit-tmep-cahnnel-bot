@@ -32,18 +32,6 @@ module.exports = {
         if (message.member.voice.channel) {
             let channel = message.guild.channels.cache.get(message.member.voice.channel.id);
 
-            let ika = new Discord.MessageEmbed()
-                .setTitle("Join")
-                .setDescription(`**now ${user} can join ${channel}**`)
-                // .setURL(`https://discord.com/channels/${channel.guild.id}/${channel.id}`)
-                .setFooter(`© shheeshh 2021`)
-                .setColor("black")
-
-
-
-            // console.log(channel.id)
-            // console.log(channel.guild.id)
-            message.inlineReply(ika)
 
             channel.updateOverwrite(user.id, {
                 //PERMISSION FOR CHANNEL AUTHOR
@@ -53,8 +41,10 @@ module.exports = {
                 MANAGE_CHANNELS: false,
                 SPEAK: true,
                 VIEW_CHANNEL: true
+            }).then(async () => {
+                let invite = await channel.createInvite()
+                message.inlineReply(invite ? `\`✅\` Here's the voice invite for ${user} ${invite}` : 'There has been an error during the creation of the invite.')
             })
-
 
         }
     }

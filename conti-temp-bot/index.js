@@ -7,7 +7,7 @@ const client = new Discord.Client();
 const cooldowns = new Discord.Collection()
 const CatLoggr = require("cat-loggr")
 const { PREFIX } = require("./config.json")
-const token = 'OTI1NDA0MjcxMDE5NzEyNTkz.G1T39H.WFeyKpAy3A7G1R3D4fETLt-JQLzkSwEA2sqpyg' // token  
+const token = 'OTI1NDA0MjcxMDE5NzEyNTkz.GCZLcb.IgCqhH0djkk_Tq5lNNxj_ZSgPXva-7dSXxTuh4' // token  
 const categoryID = '822529786903003201' //category id
 const channelID = '1035519083120177232' // cahhn el id 
 // you can use .env file insted of writing the id's of the cannel in the main app page for more suc
@@ -59,7 +59,7 @@ fs.readdir("./Commands/VoiceManage/", (_err, files) => {
 
 
 //COMMAND HANDLER
-client.on("message", async message => {
+client.on("message", async (message) => {
     if (!message.guild || message.author.bot || message.channel.type === "dm") return
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`)
     if (!prefixRegex.test(message.content)) return
@@ -80,7 +80,7 @@ client.on("message", async message => {
     }
     const now = Date.now()
     const timestamps = cooldowns.get(command.name)
-    const cooldownAmount = (command.cooldown || 1) * 1000
+    const cooldownAmount = (command.cooldown || 0) * 1000
 
     if (timestamps.has(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount
@@ -94,7 +94,6 @@ client.on("message", async message => {
     }
     timestamps.set(message.author.id, now)
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
-
     try {
         command.run(client, message, args)
     } catch (error) {
@@ -108,6 +107,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     const user = await client.users.fetch(newState.id);
     const member = newState.guild.member(user)
 
+
     if (newState.channelID === channelID) {
         newState.guild.channels.create(`${user.username}'s Channels`, { type: "voice", parent: categoryID })
             .then(async (set) => {
@@ -120,9 +120,12 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                     SPEAK: true,
                 })
                 )
+
                 return newState.setChannel(newState.guild.channels.cache.get(set.id))
             })
+
     }
+
     //FILTER THE CHANNEL IF THE SIZE HAS 0   
     if (oldState.channel) {
         let filtered = (ch) =>
@@ -135,6 +138,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
             .filter(filtered)
             .forEach((ch) => ch.delete());
     }
+
 });
 
 //CLIENT LOGGER

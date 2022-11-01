@@ -2,10 +2,10 @@ const Discord = require("discord.js");
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
-    name: "Mute",
-    aliases: ["mute", "mu", 'shut'],
-    description: "mute a user",
-    usage: "mute <user>",
+    name: "unMute",
+    aliases: ["unmute", "unmu", 'speek'],
+    description: "unmute a user",
+    usage: "unmute <user>",
     ownerOnly: false,
     myServerOnly: false,
     guildOnly: false,
@@ -62,44 +62,13 @@ module.exports = {
 
         channel.updateOverwrite(user.id, {
             //PERMISSION FOR CHANNEL AUTHOR
-            SPEAK: false,
-        }).then(async () => {
-            await user.voice.setMute(true)
-        }).then(async () => {
-            await user.voice.setMute(false)
+            SPEAK: true,
         })
-
-
-
-        // await client.api.channels(channel.id).get().then(async (res) => {
-        //     await client.api.channels(channel.id).put({
-        //         data: {
-        //             name: res.name,
-        //             rtc_region: "brazil",
-        //             type: res.type,
-        //             position: res.position,
-        //             parent_id: res.parent_id
-        //         }
-        //     }).then((res) => {
-        //         console.log(res)
-        //     })
-        // })
-
-
-        // await client.api.channels(channel.id).put({
-        //     data: {
-        //         name: channel.name,
-        //         rtc_region: "brazil",
-        //         type: 2
-        //     }
-        // }).then((res) => {
-        //     console.log(res)
-        // })
 
         // channel.overwritePermissions([
         //     {
-        //         id: user.id,
-        //         deny: ['SPEAK'],
+        //         id: channel.guild.roles.everyone,
+        //         deny: ['CONNECT'],
         //     },
         //     {
         //         id: message.author.id,
@@ -107,6 +76,6 @@ module.exports = {
         //     }
         // ]);
 
+
     }
 }
-
